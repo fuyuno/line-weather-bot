@@ -1,6 +1,6 @@
-require "dotenv"
+require "dotenv" if development?
 
-Dotenv.load
+Dotenv.load if development?
 
 APPID          = ENV["OPENWEATHERMAP_APPID"]
 CHANNEL_ID     = ENV["LINE_BOT_CHANNEL_ID"]
