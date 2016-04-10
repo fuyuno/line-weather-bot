@@ -15,7 +15,7 @@ get "/callback" do
     contentType: CONTENT_TEXT,
     toType: 1,
     text: message}
-  params = {
+  post_params = {
     to: [line_mes["content"]["from"]], 
     toChannel: TO_CHANNEL_ID, 
     eventType: SEND_MES, 
@@ -29,5 +29,5 @@ get "/callback" do
   }
 
   # HTTP
-  response = RestClient::Request.post(ENDPOINT, params.to_json, headers)
+  response = RestClient::Request.post(ENDPOINT, post_params.to_json, headers)
 end
