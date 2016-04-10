@@ -27,7 +27,8 @@ get "/callback" do
     "X-Line-ChannelSecret": CHANNEL_SECRET,
     "X-Line-Trusted-User-With-ACL": CHANNEL_MID
   }
-
+  
+  RestClient::Request.proxy(FIXIE_URL)
   # HTTP
   response = RestClient::Request.post(ENDPOINT, post_params.to_json, headers)
 end
