@@ -1,6 +1,7 @@
 require "sinatra"
 require "sinatra/reloader" if development?
-require 'rest-client'
+require "rest-client"
+require "json"
 require_relative "const.rb"
 require_relative "weather.rb"
 
@@ -8,8 +9,8 @@ get "/" do
   "Hello, world!"
 end
 
-get "/callback" do
-  line_mes = params["result"][0]
+post "/callback" do
+  line_mes = JSON.parse(request.body.read)["result"][0]
   message = parseWeather(line_mes["content"]["text"])
   contents = {
     contentType: CONTENT_TEXT,
@@ -28,7 +29,7 @@ get "/callback" do
     "X-Line-Trusted-User-With-ACL": CHANNEL_MID
   }
   
-  RestClient::Request.proxy(FIXIE_URL)
+  RestClient.proxy = FIXIE_URL
   # HTTP
-  response = RestClient::Request.post(ENDPOINT, post_params.to_json, headers)
+  response = RestClient.post(ENDPOINT, post_params.to_json, headers)
 end
